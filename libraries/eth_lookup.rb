@@ -1,6 +1,6 @@
 # utilities for dealing with multiple interfaces
 
-module ::KTCUtils
+module KTCUtils
 
   # list all the defined interace names
   # @return Array of names
@@ -26,10 +26,10 @@ module ::KTCUtils
   # get the ip associated with an interface name
   # @param String interface name
   # @return String ip address
-  def get_interface_address name
+  def get_interface_address name, n=node
     iface = get_interface name
     if list_interfaces.include?(iface)
-      node.automatic["network"]["interfaces"][iface]["addresses"].each do |k,v|
+      n.automatic["network"]["interfaces"][iface]["addresses"].each do |k,v|
         if v["family"].eql?("inet")
           return k
         end
