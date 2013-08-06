@@ -24,10 +24,33 @@ module KTCUtils
     end
   end
 
+  # search for nodes with the memcached role and set the appropriate attributs so
+  # service sill configure themselves correctly
+  def set_memccahed_servers r="infra-caching"
+    memcached_servers = search_for r
+    if memcached_servers.length == 1
+      node.default["memcached"]["listen"] = get_interface_address("management", memcached_servers.first)
+    elsif memcached_servers.length > 1
+      node.default["memcached"]["listen"] = get_interface_address("management", memcached_servers.first)
+      puts "#### TODO: deal with multiple memcached servers, just setting first for now"
+    end
+  end
+
+  # search for nodes with the database role and set the appropriate attributs so
+  # service sill configure themselves correctly
+  def set_database_servers service, r="ktc-database"
+    mysql_servers = search_for r
+    if mysql_servers.length == 1
+      node.default["openstack"]["db"][service]["host"] = get_interface_address("management", mysql_servers.first)
+    elsif mysql_servers.length > 1
+      node.default["openstack"]["db"][service]["host"] = get_interface_address("management", mysql_servers.first)
+      puts "#### TODO: deal with multiple mysql servers, just setting first for now"
+    end
+  end
+
   # set the correct attr to the openstack service endpoint will bind to the right ip
   def set_service_endpoint_ip service
     node.default["openstack"]["endpoints"][service]["host"] = get_interface_address("management")
   end
-
 end
 
