@@ -26,7 +26,7 @@ module KTCUtils
 
   # search for nodes with the memcached role and set the appropriate attributs so
   # service sill configure themselves correctly
-  def set_memcached_servers r="infra-caching"
+  def set_memcached_servers r="ktc-memcached"
     memcached_servers = search_for r
     if memcached_servers.length == 1
       node.default["memcached"]["listen"] = get_interface_address("management", memcached_servers.first)
