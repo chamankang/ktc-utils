@@ -21,8 +21,12 @@ module KTCUtils
   def register_service service_name, data
     client = init_etcd
     data.each do |k,v|
-      puts "adding key /openstack/services/#{service_name}/endpoint/#{node.name}/#{k}"
-      client.set("/openstack/services/#{service_name}/endpoint/#{node.name}/#{k}", v)
+      begin
+        puts "adding key /openstack/services/#{service_name}/endpoint/#{node.name}/#{k}"
+        client.set("/openstack/services/#{service_name}/endpoint/#{node.name}/#{k}", v)
+      rescue
+        puts "enable to contact etcd server"
+      end
     end
   end
 
@@ -32,31 +36,35 @@ module KTCUtils
   def get_service service_name
     client = init_etcd
     base_path = "/openstack/services/#{service_name}/endpoint"
-    base = client.get(base_path)
-    # if only one endpoint is returns ep will be a Mash, more than one, an Array
-    if base.class == Hashie::Mash
-      ep = client.get(base["key"])
-      node = base["key"].split("/").last
-      data = Hash.new
-      ep.each do |k|
-        data[k["key"].split("/").last] = k.value
-      end
-      return { node=>data }
-    elsif base.class == Array
-      nodes = Hash.new
-      base.each do |a|
-        node = a["key"].split("/").last
-        ep = client.get(a["key"])
+    begin
+      base = client.get(base_path)
+      # if only one endpoint is returns ep will be a Mash, more than one, an Array
+      if base.class == Hashie::Mash
+        ep = client.get(base["key"])
+        node = base["key"].split("/").last
         data = Hash.new
         ep.each do |k|
           data[k["key"].split("/").last] = k.value
         end
-        nodes[node] = data
+        return { node=>data }
+      elsif base.class == Array
+        nodes = Hash.new
+        base.each do |a|
+          node = a["key"].split("/").last
+          ep = client.get(a["key"])
+          data = Hash.new
+          ep.each do |k|
+            data[k["key"].split("/").last] = k.value
+          end
+          nodes[node] = data
+        end
+        return nodes
       end
-      return nodes
+    rescue
+      puts "unable to contact etcd server"
     end
   end
-
+ 
   # common service template with some defaults
   def get_openstack_service_template ip, port
     d = Hash.new
