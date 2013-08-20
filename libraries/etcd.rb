@@ -66,25 +66,25 @@ module KTCUtils
   end
 
   def get_endpoint name
-    m = get_members(name)
-    return m.values[0]
-#    begin
-#      client = init_etcd
-#      ep = Hash.new
-#      base_path = "/openstack/services/#{name}/endpoint"
-#      %w/
-#        ip
-#        port
-#        proto
-#        uri
-#      /.each do |k|
-#        ep[k] = client.get("#{base_path}/#{k}").value
-#      end
-#      return ep
-#    rescue
-#      Chef::Log.info("error getting service endpoint")
-#      return {}
-#    end
+    #m = get_members(name)
+    #return m.values[0]
+    begin
+      client = init_etcd
+      ep = Hash.new
+      base_path = "/openstack/services/#{name}/endpoint"
+      %w/
+        ip
+        port
+        proto
+        uri
+      /.each do |k|
+        ep[k] = client.get("#{base_path}/#{k}").value
+      end
+      return ep
+    rescue
+      Chef::Log.info("error getting service endpoint")
+      return {}
+    end
   end
 
   # common service template with some defaults
