@@ -18,12 +18,12 @@ module KTCUtils
   # Register a service with etcd
   # service_name String name of the service
   # data Hash containing the service data
-  def register_service service_name, data
+  def register_member member_name, data
     client = init_etcd
     data.each do |k,v|
       begin
-        puts "adding key /openstack/services/#{service_name}/members/#{node.fqdn}/#{k}"
-        client.set("/openstack/services/#{service_name}/members/#{node.fqdn}/#{k}", v)
+        puts "adding key /openstack/services/#{member_name}/members/#{node.fqdn}/#{k}"
+        client.set("/openstack/services/#{member_name}/members/#{node.fqdn}/#{k}", v)
       rescue
         puts "enable to contact etcd server"
       end
@@ -33,9 +33,9 @@ module KTCUtils
   # obtain service information from etcd
   # service_name String name of service to retreive info on
   # return Hash keys are the nodes names, value are data
-  def get_service service_name
+  def get_member member_name
     client = init_etcd
-    base_path = "/openstack/services/#{service_name}/members"
+    base_path = "/openstack/services/#{member_name}/members"
     begin
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
@@ -65,6 +65,26 @@ module KTCUtils
     end
   end
  
+  def get_endpoint name
+    begin
+      client = init_etcd
+      ep = Hash.new
+      base_path = "/openstack/services/#{name}/endpoint"
+      %w/
+        ip
+        port
+        proto
+        uri
+      /.each do |k|
+        ep[k] = client.get("#{base_path}/#{k}").value
+      end
+      return ep
+    rescue
+      Chef::Log.info("error getting service endpoint")
+      return {}
+    end
+  end
+
   # common service template with some defaults
   def get_openstack_service_template ip, port
     d = Hash.new
