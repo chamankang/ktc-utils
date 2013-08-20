@@ -20,7 +20,7 @@ module KTCUtils
   # attributes for the openstack service to be configured properly
   def set_rabbit_servers service
     rabbit_servers = get_members("rabbitmq")
-    puts "#####  Rabbit servers found: #{rabbit_servers}"
+    puts "##### Rabbit servers found: #{rabbit_servers}"
     if rabbit_servers.nil?
       return
     end
@@ -37,8 +37,9 @@ module KTCUtils
   # service sill configure themselves correctly
   def set_memcached_servers
     memcached_servers = get_members("memcached")
-    unless  memcached_servers.nil?
-      ips = get_service_ips(rabbit_servers)
+    puts "##### memcached servers found: #{memcached_servers}"
+    unless memcached_servers.nil?
+      ips = get_service_ips(memcached_servers)
       node.default["memcached"]["listen"] = ips[0]
       addr = ips.map { |x| x + ":11211" }
       node.default['openstack']['memcached_servers'] = addr
@@ -57,10 +58,11 @@ module KTCUtils
 
   # set the correct attr to the openstack service endpoint will bind to the right ip
   def set_service_endpoint name
-    service = get_endpoint(name)
-    unless service.nil?
-      node.default["openstack"]["endpoints"][service]["host"] = service["ip"]
-      node.default["openstack"]["endpoints"][service]["port"] = service["port"]
+    ep = get_endpoint(name)
+    puts "##### #{name} service found: #{ep}"
+    unless ep.nil?
+      node.default["openstack"]["endpoints"][name]["host"] = ep["ip"]
+      node.default["openstack"]["endpoints"][name]["port"] = ep["port"]
     end
   end
 
