@@ -7,7 +7,7 @@ module KTCUtils
     chef_gem "etcd" do
       action :install
     end
-    
+
     require "etcd"
 
     ip = node["etcd"]["ip"]
@@ -20,10 +20,11 @@ module KTCUtils
   # data Hash containing the service data
   def register_member member_name, data
     client = init_etcd
-    data.each do |k,v|
+    data.each do |k, v|
       begin
-        puts "adding key /openstack/services/#{member_name}/members/#{node.fqdn}/#{k}"
-        client.set("/openstack/services/#{member_name}/members/#{node.fqdn}/#{k}", v)
+        path = "/openstack/services/#{member_name}/members/#{node.fqdn}/#{k}"
+        puts "adding key #{path}"
+        client.set(path, v)
       rescue
         puts "enable to contact etcd server"
       end
@@ -64,7 +65,7 @@ module KTCUtils
       puts "unable to contact etcd server"
     end
   end
- 
+
   def get_endpoint name
     begin
       client = init_etcd

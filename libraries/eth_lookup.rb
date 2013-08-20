@@ -29,7 +29,7 @@ module KTCUtils
   def get_interface_address name, n=node
     iface = get_interface name
     if list_interfaces.include?(iface)
-      n.automatic["network"]["interfaces"][iface]["addresses"].each do |k,v|
+      n.automatic["network"]["interfaces"][iface]["addresses"].each do |k, v|
         if v["family"].eql?("inet")
           return k
         end
