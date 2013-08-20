@@ -16,7 +16,7 @@ suites:
   run_list:
 # add solo search heere if you want search support in your suite
 #   - recipe[chef-solo-search]
-    - recipe[test_cook_skeleton]
+    - recipe[ktc-utils]
   attributes: {}
 
 clusters:
