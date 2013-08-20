@@ -22,8 +22,8 @@ module KTCUtils
     client = init_etcd
     data.each do |k,v|
       begin
-        puts "adding key /openstack/services/#{service_name}/endpoint/#{node.name}/#{k}"
-        client.set("/openstack/services/#{service_name}/endpoint/#{node.name}/#{k}", v)
+        puts "adding key /openstack/services/#{service_name}/members/#{node.fqdn}/#{k}"
+        client.set("/openstack/services/#{service_name}/members/#{node.fqdn}/#{k}", v)
       rescue
         puts "enable to contact etcd server"
       end
@@ -35,7 +35,7 @@ module KTCUtils
   # return Hash keys are the nodes names, value are data
   def get_service service_name
     client = init_etcd
-    base_path = "/openstack/services/#{service_name}/endpoint"
+    base_path = "/openstack/services/#{service_name}/members"
     begin
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
@@ -71,7 +71,6 @@ module KTCUtils
     d["ip"] = ip
     d["port"] = port
     d["protocol"] = "http"
-    d["service_type"] = "xxx"
     return d
   end
 
