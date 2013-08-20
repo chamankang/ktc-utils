@@ -31,6 +31,17 @@ module KTCUtils
     end
   end
 
+  # extra member data from a path in etcd
+  private def get_member_data client, base
+    ep = client.get(base["key"])
+    node = base["key"].split("/").last
+    data = Hash.new
+    ep.each do |k|
+      data[k["key"].split("/").last] = k.value
+    end
+    return { node=>data }
+  end
+
   # obtain service information from etcd
   # service_name String name of service to retreive info on
   # return Hash keys are the nodes names, value are data
@@ -41,23 +52,11 @@ module KTCUtils
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
       if base.class == Hashie::Mash
-        ep = client.get(base["key"])
-        node = base["key"].split("/").last
-        data = Hash.new
-        ep.each do |k|
-          data[k["key"].split("/").last] = k.value
-        end
-        return { node=>data }
+        return get_member_data(client, base)
       elsif base.class == Array
         nodes = Hash.new
         base.each do |a|
-          node = a["key"].split("/").last
-          ep = client.get(a["key"])
-          data = Hash.new
-          ep.each do |k|
-            data[k["key"].split("/").last] = k.value
-          end
-          nodes[node] = data
+          nodes.merge!(get_member_data(client, a)
         end
         return nodes
       end

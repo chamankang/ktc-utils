@@ -21,12 +21,11 @@ module KTCUtils
   def set_rabbit_servers service
     rabbit_servers = get_members("rabbitmq")
     puts "#####  Rabbit servers found: #{rabbit_servers}"
-    if rabbit_servers.keys.length == 1
-      ip = get_service_ips(rabbit_servers)[0]
-      node.default["openstack"][service]["rabbit"]["host"] = ip
+    ips = get_service_ips(rabbit_servers)
+    if rabbit_servers.length == 1
+      node.default["openstack"][service]["rabbit"]["host"] = ips[0]
     elsif rabbit_servers.length > 1
       node.default["openstack"][service]["rabbit"]["ha"] = true
-      ips = get_service_ips(rabbit_servers)
       node.default["openstack"]["mq"]["servers"] = ips
     end
   end
