@@ -26,6 +26,7 @@ namespace :test do
       canefile = ".cane"
       cane.abc_max = 10
       cane.abc_glob =  '{recipes,libraries,resources,providers}/**/*.rb'
+      cane.abc_exclude = %w{ KTCUtils#get_service KTCUtils#set_rabbit_servers }
       cane.no_style = true
       cane.parallel = true
     end

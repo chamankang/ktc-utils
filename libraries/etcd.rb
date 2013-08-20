@@ -7,7 +7,7 @@ module KTCUtils
     chef_gem "etcd" do
       action :install
     end
-    
+
     require "etcd"
 
     ip = node["etcd"]["ip"]
@@ -39,6 +39,7 @@ module KTCUtils
     begin
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
+      # TODO: refactorinto more methods,  use  responds_to? instead of class inspection
       if base.class == Hashie::Mash
         ep = client.get(base["key"])
         node = base["key"].split("/").last
@@ -64,7 +65,7 @@ module KTCUtils
       puts "unable to contact etcd server"
     end
   end
- 
+
   # common service template with some defaults
   def get_openstack_service_template ip, port
     d = Hash.new
