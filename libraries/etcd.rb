@@ -32,10 +32,10 @@ module KTCUtils
   end
 
   # extra member data from a path in etcd
-  private def get_member_data client, base
-    ep = client.get(base["key"])
-    node = base["key"].split("/").last
+  def get_member_data client, base
     data = Hash.new
+    node = base["key"].split("/").last
+    ep = client.get(base["key"])
     ep.each do |k|
       data[k["key"].split("/").last] = k.value
     end
@@ -56,7 +56,7 @@ module KTCUtils
       elsif base.class == Array
         nodes = Hash.new
         base.each do |a|
-          nodes.merge!(get_member_data(client, a)
+          nodes.merge!(get_member_data(client, a))
         end
         return nodes
       end
