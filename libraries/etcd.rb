@@ -45,7 +45,7 @@ module KTCUtils
   # obtain service information from etcd
   # service_name String name of service to retreive info on
   # return Hash keys are the nodes names, value are data
-  def get_member member_name
+  def get_members member_name
     client = init_etcd
     base_path = "/openstack/services/#{member_name}/members"
     begin
