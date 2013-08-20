@@ -22,7 +22,7 @@ module KTCUtils
     client = init_etcd
     data.each do |k, v|
       begin
-        path = "/openstack/services/#{member_name}/members/#{node.fqdn}/#{k}"
+        path = "/openstack/services/#{member_name}/members/#{node["fqdn"]}/#{k}"
         puts "adding key #{path}"
         client.set(path, v)
       rescue

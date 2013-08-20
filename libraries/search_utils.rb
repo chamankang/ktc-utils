@@ -21,6 +21,9 @@ module KTCUtils
   def set_rabbit_servers service
     rabbit_servers = get_members("rabbitmq")
     puts "#####  Rabbit servers found: #{rabbit_servers}"
+    if rabbit_servers.nil?
+      return
+    end
     ips = get_service_ips(rabbit_servers)
     if rabbit_servers.length == 1
       node.default["openstack"][service]["rabbit"]["host"] = ips[0]
@@ -34,6 +37,9 @@ module KTCUtils
   # service sill configure themselves correctly
   def set_memcached_servers
     memcached_servers = get_endpoint("memcached")
+    if memcached_servers.nil?
+      return
+    end
     if memcached_servers.length == 1
       ips = get_service_ips(memcached_servers)[0]
       node.default["memcached"]["listen"] = ips
@@ -48,6 +54,9 @@ module KTCUtils
   # service sill configure themselves correctly
   def set_database_servers service
     mysql_servers = get_endpoint("mysql")
+    if mysql_servers.nil?
+      return
+    end
     if mysql_servers.length == 1
       ips = get_service_ips(mysql_servers)[0]
       node.default["openstack"]["db"][service]["host"] = ips
