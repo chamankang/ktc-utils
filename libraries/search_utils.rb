@@ -36,34 +36,31 @@ module KTCUtils
   # search for nodes with the memcached role and set the appropriate attributs so
   # service sill configure themselves correctly
   def set_memcached_servers
-    memcached_servers = get_endpoint("memcached")
-    if memcached_servers.nil?
-      return
-    end
-    if memcached_servers.length == 1
-      ips = get_service_ips(memcached_servers)[0]
-      node.default["memcached"]["listen"] = ips
-    elsif memcached_servers.length > 1
-      ips = get_service_ips(memcached_servers)[0]
-      node.default["memcached"]["listen"] = ips
-      puts "#### TODO: deal with multiple memcached servers"
+    memcached_servers = get_members("memcached")
+    unless  memcached_servers.nil?
+      ips = get_service_ips(rabbit_servers)
+      node.default["memcached"]["listen"] = ips[0]
+      addr = ips.map { |x| x + ":11211" }
+      node.default['openstack']['memcached_servers'] = addr
     end
   end
 
   # search for nodes with the database role and set the appropriate attributs so
   # service sill configure themselves correctly
   def set_database_servers service
-    mysql_servers = get_endpoint("mysql")
-    if mysql_servers.nil?
-      return
+    mysql_server = get_endpoint("mysql")
+    puts "mysql server: #{mysql_server} for service #{service}"
+    unless mysql_server.nil?
+      node.default["openstack"]["db"][service]["host"] = mysql_server["ip"]
     end
-    if mysql_servers.length == 1
-      ips = get_service_ips(mysql_servers)[0]
-      node.default["openstack"]["db"][service]["host"] = ips
-    elsif mysql_servers.length > 1
-      ips = get_service_ips(mysql_servers)[0]
-      node.default["openstack"]["db"][service]["host"] = ips
-      puts "#### TODO: deal with multiple mysql servers"
+  end
+
+  # set the correct attr to the openstack service endpoint will bind to the right ip
+  def set_service_endpoint name
+    service = get_endpoint(name)
+    unless service.nil?
+      node.default["openstack"]["endpoints"][service]["host"] = service["ip"]
+      node.default["openstack"]["endpoints"][service]["port"] = service["port"]
     end
   end
 
