@@ -28,14 +28,19 @@ module KTCUtils
     require "etcd"
 
     servers = node["etcd"]["servers"]
-    CHef::Log.debug("#### available servers: #{servers}")
+    Chef::Log.debug("#### available servers: #{servers}")
 
     # if nothing is found just use attributes
     # chose any server, first will do
     # TODO: this should ideally try individaul servers an ensure the
     # connection it returns is good
-    ip = servers.empty() ? node["etcd"]["ip"] : servers.values.first["ip"]
-    port = servers.empty() ? node["etcd"]["port"] : servers.values.first["port"]
+    if not servers.nil? and servers.empty?
+      ip = servers.values.first["ip"]
+      port = servers.values.first["port"]
+    else
+      ip = node["etcd"]["ip"]
+      port = node["etcd"]["port"]
+    end
     return Etcd.client(:host=>ip, :port=>port)
   end
 
