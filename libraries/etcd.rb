@@ -66,24 +66,29 @@ module KTCUtils
   end
 
   def get_endpoint name
-    #m = get_members(name)
-    #return m.values[0]
-    begin
-      client = init_etcd
-      ep = Hash.new
-      base_path = "/openstack/services/#{name}/endpoint"
-      %w/
-        ip
-        port
-        proto
-        uri
-      /.each do |k|
-        ep[k] = client.get("#{base_path}/#{k}").value
+    # if ha_disabled is set pull the member config directly
+    # instead of from the endpoint
+    if not node["ha_disabled"].nil?
+      m = get_members(name)
+      return m.values[0]
+    else
+      begin
+        client = init_etcd
+        ep = Hash.new
+        base_path = "/openstack/services/#{name}/endpoint"
+        %w/
+          ip
+          port
+          proto
+          uri
+        /.each do |k|
+          ep[k] = client.get("#{base_path}/#{k}").value
+        end
+        return ep
+      rescue
+        Chef::Log.info("error getting service endpoint")
+        return {}
       end
-      return ep
-    rescue
-      Chef::Log.info("error getting service endpoint")
-      return {}
     end
   end
 
