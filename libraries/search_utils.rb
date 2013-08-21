@@ -60,7 +60,7 @@ module KTCUtils
   def set_service_endpoint name
     ep = get_endpoint(name)
     puts "##### #{name} service found: #{ep}"
-    unless ep.nil?
+    unless ep.nil? or ep.empty?
       node.default["openstack"]["endpoints"][name]["host"] = ep["ip"]
       node.default["openstack"]["endpoints"][name]["port"] = ep["port"]
     end
