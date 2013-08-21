@@ -2,16 +2,40 @@
 
 module KTCUtils
 
-  # Initialize etcd client
-  def init_etcd
+  def locate_etcd_servers
     chef_gem "etcd" do
       action :install
     end
 
+    query_single = "(chef_environment:#{node.chef_environment} AND recipes:etcd)"
+    query_clustered = "(chef_environment:#{node.chef_environment} AND recipes:ktc-etcd)"
+    etcd_servers = search(:node, "#{query_single} OR #{query_clustered}")
+
+    puts "#### etcd servers: #{etcd_servers} ####"
+
+    etcd_servers.each do |k|
+      node.default["etcd"]["servers"][k["fqdn"]]["ip"] = k["etcd"]["ip"]
+      node.default["etcd"]["servers"][k["fqdn"]]["port"] = k["etcd"]["port"]
+    end
+  end
+
+  # Initialize etcd client
+  def init_etcd
+    if node["etcd"]["servers"].nil?
+      locate_etcd_servers
+    end
+
     require "etcd"
 
-    ip = node["etcd"]["ip"]
-    port = node["etcd"]["port"]
+    servers = node["etcd"]["servers"]
+    CHef::Log.debug("#### available servers: #{servers}")
+
+    # if nothing is found just use attributes
+    # chose any server, first will do
+    # TODO: this should ideally try individaul servers an ensure the
+    # connection it returns is good
+    ip = servers.empty() ? node["etcd"]["ip"] : servers.values.first["ip"]
+    port = servers.empty() ? node["etcd"]["port"] : servers.values.first["port"]
     return Etcd.client(:host=>ip, :port=>port)
   end
 
@@ -69,8 +93,12 @@ module KTCUtils
     # if ha_disabled is set pull the member config directly
     # instead of from the endpoint
     if not node["ha_disabled"].nil?
-      m = get_members(name)
-      return m.values[0]
+      begin
+        m = get_members(name)
+        return m.values[0]
+      rescue
+        Chef::Log.info("error getting service endpoint")
+      end
     else
       begin
         client = init_etcd
@@ -87,9 +115,9 @@ module KTCUtils
         return ep
       rescue
         Chef::Log.info("error getting service endpoint")
-        return {}
       end
     end
+    return {}
   end
 
   # common service template with some defaults
