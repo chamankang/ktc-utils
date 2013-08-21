@@ -8,11 +8,6 @@
       "git": "git://github.com/stackforge/cookbook-openstack-common.git",
       "ref": "eb5eed7126b6a6efbaf803e8a594d610cf661e97"
     },
-    "chef-solo-search": {
-      "locked_version": "0.4.0",
-      "git": "git://github.com/edelight/chef-solo-search.git",
-      "ref": "1f79c1d86e85aa3a2b01e15f90755cf60eb66a4f"
-    },
     "etcd": {
       "locked_version": "1.2.3"
     },
