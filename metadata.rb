@@ -10,5 +10,5 @@ version          '0.2.1'
   supports os
 end
 
-depends "openstack-common", "~> 7.0.0"
+depends "openstack-common"
 depends "etcd"

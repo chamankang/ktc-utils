@@ -7,9 +7,11 @@ module KTCUtils
       action :install
     end
 
-    query_single = "(chef_environment:#{node.chef_environment} AND recipes:etcd)"
-    query_clustered = "(chef_environment:#{node.chef_environment} AND recipes:ktc-etcd)"
-    etcd_servers = search(:node, "#{query_single} OR #{query_clustered}")
+    query = "(chef_environment:#{node.chef_environment} "
+    query << "AND recipes:etcd) "
+    query << "OR (chef_environment:#{node.chef_environment} "
+    query << "AND recipes:ktc-etcd)"
+    etcd_servers = search(:node, query)
 
     puts "#### etcd servers: #{etcd_servers} ####"
 
