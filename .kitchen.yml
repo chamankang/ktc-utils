@@ -1,5 +1,6 @@
 ---
 driver_plugin: vagrant
+provider: chef_zero
 
 platforms:
 - name: centos-6.4_chef-11.4.4
@@ -14,11 +15,5 @@ platforms:
 suites:
 - name: default
   run_list:
-# add solo search heere if you want search support in your suite
-#   - recipe[chef-solo-search]
     - recipe[ktc-utils]
   attributes: {}
-
-clusters:
-  default:
-    - default
