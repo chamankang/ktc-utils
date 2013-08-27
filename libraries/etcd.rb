@@ -64,9 +64,9 @@ module KTCUtils
 
   # get a memember "key" from an instance of Hashie::Mash or OpenStruct
   def get_key data
-    if data.class.to_s == "Hashie::Mash"
+    if (data.respond_to? :has_key?) && (data.has_key? "key")
       return data["key"]
-    elsif data.class.to_s == "OpenStruct"
+    elsif data.respond_to? :key
       return data.key
     end
   end
@@ -99,14 +99,14 @@ module KTCUtils
     begin
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
-      if base.class.to_s == "Hashie::Mash" || base.class.to_s == "OpenStruct"
-        return get_member_data(client, base)
-      elsif base.class.to_s == "Array"
+      if base.class == Array
         nodes = Hash.new
         base.each do |a|
           nodes.merge!(get_member_data(client, a))
         end
         return nodes
+      else
+        return get_member_data(client, base)
       end
     rescue
       puts "unable to contact etcd server"
