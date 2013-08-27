@@ -62,16 +62,27 @@ module KTCUtils
     end
   end
 
+  # get a memember "key" from an instance of Hashie::Mash or OpenStruct
+  def get_key data
+    if data.class.to_s == "Hashie::Mash"
+      return data["key"]
+    elsif data.class.to_s == "OpenStruct"
+      return data.key
+    end
+  end
+
   # extra member data from a path in etcd
   def get_member_data client, base
     data = Hash.new
-    node = base["key"].split("/").last
-    ep = client.get(base["key"])
+    base_key = get_key(base)
+    node = base_key.split("/").last
+    ep = client.get(base_key)
     # if no keys exist underneath this service don't add anything
     # as it doesn't seem like directories can be deleted =/
     unless ep.empty?
       ep.each do |k|
-        data[k["key"].split("/").last] = k.value
+        k_key = get_key(k)
+        data[k_key.split("/").last] = k.value
       end
       return { node=>data }
     else
@@ -88,9 +99,9 @@ module KTCUtils
     begin
       base = client.get(base_path)
       # if only one endpoint is returns ep will be a Mash, more than one, an Array
-      if base.class == Hashie::Mash
+      if base.class.to_s == "Hashie::Mash" || base.class.to_s == "OpenStruct"
         return get_member_data(client, base)
-      elsif base.class == Array
+      elsif base.class.to_s == "Array"
         nodes = Hash.new
         base.each do |a|
           nodes.merge!(get_member_data(client, a))
