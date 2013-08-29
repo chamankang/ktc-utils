@@ -3,9 +3,6 @@
 module KTCUtils
 
   def locate_etcd_servers
-    chef_gem "etcd" do
-      action :install
-    end
 
     query = "(chef_environment:#{node.chef_environment} "
     query << "AND recipes:etcd) "
@@ -27,7 +24,15 @@ module KTCUtils
       locate_etcd_servers
     end
 
-    require "etcd"
+    begin
+      require "etcd"
+    rescue LoadError
+      Chef::Log.info "etcd gem not found. attempting to install"
+      g = Chef::Resource::ChefGem.new "etcd", run_context
+      run_context.resource_collection.insert g
+      g.run_action :install
+      require "etcd"
+    end
 
     servers = node["etcd"]["servers"]
     Chef::Log.debug("#### available servers: #{servers}")
