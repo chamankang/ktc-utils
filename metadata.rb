@@ -12,4 +12,4 @@ end
 
 depends "services", "~> 1.0.5"
 depends "openstack-common", "~> 0.4.3"
-depends "etcd"
+depends "etcd", "~> 1.2.4"
