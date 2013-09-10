@@ -1,7 +1,13 @@
 {
+  "sha": "6303ef61294bc03cc35561609765c8e979ca527d",
   "sources": {
     "ktc-utils": {
       "path": "."
+    },
+    "services": {
+      "locked_version": "1.0.5",
+      "git": "git://github.com/spheromak/services-cookbook.git",
+      "ref": "d8943fa690a008488e5e8e4ea9b46995c3a725a6"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
@@ -9,7 +15,8 @@
       "ref": "eb5eed7126b6a6efbaf803e8a594d610cf661e97"
     },
     "etcd": {
-      "locked_version": "1.2.3"
+      "locked_version": "1.2.4",
+      "constraint": "~> 1.2.4"
     },
     "ark": {
       "locked_version": "0.3.0"
@@ -21,19 +28,22 @@
       "locked_version": "1.4.0"
     },
     "mysql": {
-      "locked_version": "3.0.2"
+      "locked_version": "3.0.4",
+      "constraint": ">= 1.3.0"
     },
     "openssl": {
-      "locked_version": "1.0.2"
+      "locked_version": "1.1.0"
     },
     "build-essential": {
-      "locked_version": "1.4.0"
+      "locked_version": "1.4.0",
+      "constraint": "> 1.1.0"
     },
     "postgresql": {
-      "locked_version": "3.0.2"
+      "locked_version": "3.0.4",
+      "constraint": ">= 1.0.0"
     },
     "aws": {
-      "locked_version": "0.101.2"
+      "locked_version": "0.101.4"
     },
     "xfs": {
       "locked_version": "1.1.0"

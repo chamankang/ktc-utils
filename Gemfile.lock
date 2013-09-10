@@ -1,18 +1,4 @@
 GIT
-  remote: git://github.com/chrisroberts/vagabond.git
-  revision: 407f6c7597535bfc69d667204a901ed5c88ae26d
-  branch: develop
-  specs:
-    vagabond (0.2.9)
-      chef
-      elecksee (>= 1.0.6)
-      librarian-chef
-      serverspec (>= 0.6.3)
-      test-kitchen (>= 1.0.0.alpha)
-      thor
-      uuidtools
-
-GIT
   remote: git://github.com/opscode/test-kitchen.git
   revision: 77a76c687770b14843f3846bb8e5de3cb240ec59
   specs:
@@ -35,7 +21,6 @@ GEM
     akami (1.2.0)
       gyoku (>= 0.4.0)
       nokogiri (>= 1.4.0)
-    archive-tar-minitar (0.5.2)
     berkshelf (2.0.4)
       activesupport (>= 3.2.0)
       addressable (~> 2.3.4)
@@ -98,9 +83,6 @@ GEM
       builder (>= 2.1.2)
     coderay (1.0.9)
     diff-lcs (1.2.4)
-    elecksee (1.0.6)
-      mixlib-shellout
-      net-ssh
     erubis (2.7.0)
     faraday (0.8.7)
       multipart-post (~> 1.1)
@@ -151,13 +133,6 @@ GEM
     knife-cookbook-doc (0.3.0)
       chef
       erubis
-    librarian (0.1.0)
-      highline
-      thor (~> 0.15)
-    librarian-chef (0.0.1)
-      archive-tar-minitar (>= 0.5.2)
-      chef (>= 0.10)
-      librarian (~> 0.1.0)
     listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -310,4 +285,3 @@ DEPENDENCIES
   knife-cookbook-doc
   tailor
   test-kitchen!
-  vagabond!

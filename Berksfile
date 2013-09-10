@@ -5,4 +5,5 @@ site :opscode
 
 metadata
 
+cookbook 'services', github: 'spheromak/services-cookbook'
 cookbook 'openstack-common', github: 'stackforge/cookbook-openstack-common'
