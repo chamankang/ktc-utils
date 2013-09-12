@@ -5,3 +5,5 @@ default["interface_mapping"]["disk"] = "eth0"
 default["interface_mapping"]["private"] = "eth0"
 default["interface_mapping"]["public"] = "eth0"
 default["interface_mapping"]["management"] = "eth0"
+
+default["service_names"] = [ "compute", "dashboard", "identity", "image", "metering", "network", "volume" ]
