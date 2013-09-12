@@ -8,3 +8,4 @@
 #
 
 KTC::Network.node = node
+KTC::Attributes.node = node
