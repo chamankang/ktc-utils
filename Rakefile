@@ -26,6 +26,7 @@ namespace :test do
       canefile = ".cane"
       cane.abc_max = 12
       cane.abc_glob =  '{recipes,libraries,resources,providers}/**/*.rb'
+      cane.abc_exclude = %w{KTC::Attributes#set_endpoint KTC::Attributes#set_database}
       cane.no_style = true
       cane.parallel = true
     end
