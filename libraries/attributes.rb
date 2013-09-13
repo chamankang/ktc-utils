@@ -11,14 +11,14 @@ module KTC
         # get a list of the known services stored in etcd & iterate
         services.each do |service|
           case service.name
-            when "memcached"
-              set_memcached service
-            when "mysql"
-              set_database service
-            when "rabbitmq"
-              set_rabbit service
-            else
-              set_endpoint service
+          when "memcached"
+            set_memcached service
+          when "mysql"
+            set_database service
+          when "rabbitmq"
+            set_rabbit service
+          else
+            set_endpoint service
           end
         end
       end
@@ -38,40 +38,39 @@ module KTC
 
       # set stackforge attributes for mysql
       def set_database service
-        if node.ha_disabled
-          ip = service.members.first.ip
-          port = service.members.first.port
-        else
-          ip = service.endpoint.ip
-          port = service.endpoint.port
-        end
-
+        ha_d = node.ha_disabled
+        ip = ha_d ? service.members.first.ip : service.endpoint.ip
+        port = ha_d ? service.members.first.port : service.endpoint.port
         Chef::Log.info "setting database host attrs to #{ip}:#{port}"
+
         node.default["service_names"].each do |s|
           node.default["openstack"]["db"][s]["host"] = ip
           node.default["openstack"]["db"][s]["port"] = port
         end
       end
 
-      # set stackforge attributes for rabbitmq
       def set_rabbit service
-        if node.ha_disabled
-          ip = service.members.first.ip
-          port = service.members.first.port
-          Chef::Log.info "setting rabbitmq host attrs to #{ip}:#{port}"
+        if node.has_disabled
+          set_rabbit_single service.members.first.ip service.members.first.port
         else
-          ips = service.members.map { |m| m.ip }
-          node.default["openstack"]["mq"]["servers"] = ips
-          Chef::Log.info "setting rabbitmq cluster attrs to #{ips}"
+          set_rabbit_ha service
         end
+      end
 
+      def set_rabbit_ha service
+        ips = service.members.map { |m| m.ip }
+        node.default["openstack"]["mq"]["servers"] = ips
+        Chef::Log.info "setting rabbitmq cluster attrs to #{ips}"
+
+        node.default["service_names"].map do |s|
+          node.default["openstack"][s]["rabbit"]["ha"] = true
+        end
+      end
+
+      def set_rabbit_single ip, port
         node.default["service_names"].each do |s|
-          if node.ha_disabled
-            node.default["openstack"][s]["rabbit"]["host"] = ip
-            node.default["openstack"][s]["rabbit"]["port"] = port
-          else
-            node.default["openstack"][s]["rabbit"]["ha"] = true
-          end
+          node.default["openstack"][s]["rabbit"]["host"] = ip
+          node.default["openstack"][s]["rabbit"]["port"] = port
         end
       end
 
@@ -84,15 +83,11 @@ module KTC
 
       # set stackforge attributes for openstack service endpoints
       def set_endpoint service
-        if node.ha_disabled
-          ip = service.members.first.ip
-          port = service.members.first.port
-        else
-          ip = service.endpoint.ip
-          port = service.endpoint.port
-        end
-
+        ha_d = node[:ha_disabled]
+        ip = ha_d ? service.members.first.ip : service.endpoint.ip
+        port = ha_d ? service.members.first.port : service.endpoint.port
         Chef::Log.info "setting #{service.name} host attrs to #{ip}:#{port}"
+
         node.default["openstack"]["endpoints"][service.name]["host"] = ip
         node.default["openstack"]["endpoints"][service.name]["port"] = port
       end
