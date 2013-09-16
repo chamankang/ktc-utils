@@ -50,8 +50,8 @@ module KTC
       end
 
       def set_rabbit service
-        if node.has_disabled
-          set_rabbit_single service.members.first.ip service.members.first.port
+        if node.ha_disabled
+          set_rabbit_single service.members.first.ip, service.members.first.port
         else
           set_rabbit_ha service
         end
