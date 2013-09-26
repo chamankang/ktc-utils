@@ -10,6 +10,7 @@ module KTC
         Chef::Log.info "services defined: #{services.map { |m| m.name }}"
         # get a list of the known services stored in etcd & iterate
         services.each do |service|
+          Chef::Log.debug "#### setting attributes for service #{service.name}"
           case service.name
           when "memcached"
             set_memcached service
@@ -38,7 +39,7 @@ module KTC
 
       # set stackforge attributes for mysql
       def set_database service
-        ha_d = node.ha_disabled
+        ha_d = node[:ha_disabled]
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
         port = ha_d ? service.members.first.port : service.endpoint.port
         Chef::Log.info "setting database host attrs to #{ip}:#{port}"
@@ -50,7 +51,7 @@ module KTC
       end
 
       def set_rabbit service
-        if node.ha_disabled
+        if node[:ha_disabled]
           set_rabbit_single service.members.first.ip, service.members.first.port
         else
           set_rabbit_ha service
