@@ -52,6 +52,7 @@ module KTC
       end
 
       def add_service_nat service_name, port
+        include_recipe "simple_iptables::default"
         ep = Services::Endpoint.new service_name
         ep.load
 
