@@ -13,3 +13,4 @@ end
 depends "services", "~> 1.0.5"
 depends "openstack-common", "~> 0.4.3"
 depends "etcd", "~> 1.2.4"
+depends "simple_iptables"
