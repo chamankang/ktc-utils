@@ -51,6 +51,25 @@ module KTC
         return node["network"]["interfaces"].keys
       end
 
+      def add_service_nat service_name, port
+        ep = Services::Endpoint.new service_name
+        ep.load
+
+        log "Loaded endpoint #{ep.inspect}"
+
+        if ep.ip.empty?
+            log "Endpoint #{service_name} missing IP attribute, moving on"
+              raise
+        end
+
+        # redirect VIP address to local realserver (DIRECT ROUTE)
+        simple_iptables_rule "#{service_name}-direct-route" do
+          table "nat"
+          direction "PREROUTING"
+          rule "-p tcp -d #{ep.ip} --dport #{port} -j REDIRECT"
+          jump false
+        end
+      end
     end
   end
 end

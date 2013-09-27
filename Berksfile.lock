@@ -4,9 +4,9 @@
       "path": "."
     },
     "services": {
-      "locked_version": "1.0.5",
+      "locked_version": "1.0.9",
       "git": "git://github.com/spheromak/services-cookbook.git",
-      "ref": "d8943fa690a008488e5e8e4ea9b46995c3a725a6"
+      "ref": "02c892eea3896a532394af24f3ab1f146a3f4a16"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
