@@ -33,7 +33,7 @@ module KTC
         ep = Services::Endpoint.new service_name
         ep.load
 
-        log "Loaded endpoint #{ep.inspect}"
+        Chef::Log.info "Loaded endpoint #{ep.inspect}"
 
         if ep.ip.empty?
             log "Endpoint #{service_name} missing IP attribute, moving on"
