@@ -85,6 +85,10 @@ module KTC
       # set stackforge attributes for openstack service endpoints
       def set_endpoint service
         ha_d = node[:ha_disabled]
+        # image endpoints never run ha
+        if ['image-api', 'image-registry'].include?(service)
+          ha_d = true
+        end
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
         port = ha_d ? service.members.first.port : service.endpoint.port
         Chef::Log.info "setting #{service.name} host attrs to #{ip}:#{port}"
