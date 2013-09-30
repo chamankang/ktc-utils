@@ -36,17 +36,18 @@ module KTC
         Chef::Log.info "Loaded endpoint #{ep.inspect}"
 
         if ep.ip.empty?
-            log "Endpoint #{service_name} missing IP attribute, moving on"
-              raise
+          short = "Endpoint #{service_name} missing IP attribute, moving on"
+          Chef::Log.info short
+          raise
         end
 
-        bash "nat_something" do
-            user "root"
-            code <<-EOH
-            /sbin/iptables -t nat -F
-            /sbin/iptables -t nat -o PREROUTING -p tcp -d #{ep.ip} --dport #{port} -j REDIRECT
-            EOH
-        end
+        #bash "nat_something" do
+        short1 = "/sbin/iptables -t nat "
+        short2 = "-D PREROUTING -p tcp -d #{ep.ip} --dport #{port} -j REDIRECT"
+        short3 = "-A PREROUTING -p tcp -d #{ep.ip} --dport #{port} -j REDIRECT"
+
+        system(short1 + short2)
+        system(short1 + short3)
 
         # redirect VIP address to local realserver (DIRECT ROUTE)
         #simple_iptables_rule "#{service_name}-direct-route" do
