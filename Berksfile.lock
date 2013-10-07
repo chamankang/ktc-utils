@@ -3,10 +3,15 @@
     "ktc-utils": {
       "path": "."
     },
+    "ktc-etcd": {
+      "locked_version": "1.1.4",
+      "git": "git://github.com/cloudware-cookbooks/ktc-etcd.git",
+      "ref": "6daab4a5eee14842e818ba30cc6bc9c88d61fe32"
+    },
     "services": {
-      "locked_version": "1.0.5",
+      "locked_version": "1.0.10",
       "git": "git://github.com/spheromak/services-cookbook.git",
-      "ref": "d8943fa690a008488e5e8e4ea9b46995c3a725a6"
+      "ref": "f5f2cc911e3fb1832a457552cb98d81c3a645c9b"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
@@ -17,10 +22,10 @@
       "locked_version": "1.2.4"
     },
     "ark": {
-      "locked_version": "0.3.2"
+      "locked_version": "0.3.0"
     },
     "apt": {
-      "locked_version": "2.1.1"
+      "locked_version": "2.1.0"
     },
     "database": {
       "locked_version": "1.4.0"
@@ -32,7 +37,7 @@
       "locked_version": "1.1.0"
     },
     "build-essential": {
-      "locked_version": "1.4.2"
+      "locked_version": "1.4.0"
     },
     "postgresql": {
       "locked_version": "3.0.4"
