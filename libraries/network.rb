@@ -28,35 +28,6 @@ module KTC
         ipaddr.split(".")[3].to_i
       end
 
-      def add_service_nat service_name, port
-        #node.run_context.include_recipe "simple_iptables::default"
-        ep = Services::Endpoint.new service_name
-        ep.load
-
-        Chef::Log.info "Loaded endpoint #{ep.inspect}"
-
-        if ep.ip.empty?
-            log "Endpoint #{service_name} missing IP attribute, moving on"
-              raise
-        end
-
-        bash "nat_something" do
-            user "root"
-            code <<-EOH
-            /sbin/iptables -t nat -F
-            /sbin/iptables -t nat -o PREROUTING -p tcp -d #{ep.ip} --dport #{port} -j REDIRECT
-            EOH
-        end
-
-        # redirect VIP address to local realserver (DIRECT ROUTE)
-        #simple_iptables_rule "#{service_name}-direct-route" do
-        #  table "nat"
-        #  direction "PREROUTING"
-        #  rule "-p tcp -d #{ep.ip} --dport #{port} -j REDIRECT"
-        #  jump false
-        #end
-      end
-
       private
 
       def if_addr int

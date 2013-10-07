@@ -3,18 +3,20 @@
     "ktc-utils": {
       "path": "."
     },
+    "ktc-etcd": {
+      "locked_version": "1.1.4",
+      "git": "git://github.com/cloudware-cookbooks/ktc-etcd.git",
+      "ref": "6daab4a5eee14842e818ba30cc6bc9c88d61fe32"
+    },
     "services": {
-      "locked_version": "1.0.9",
+      "locked_version": "1.0.10",
       "git": "git://github.com/spheromak/services-cookbook.git",
-      "ref": "02c892eea3896a532394af24f3ab1f146a3f4a16"
+      "ref": "f5f2cc911e3fb1832a457552cb98d81c3a645c9b"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
       "git": "git://github.com/stackforge/cookbook-openstack-common.git",
       "ref": "eb5eed7126b6a6efbaf803e8a594d610cf661e97"
-    },
-    "simple_iptables": {
-      "locked_version": "0.3.0"
     },
     "etcd": {
       "locked_version": "1.2.4"
