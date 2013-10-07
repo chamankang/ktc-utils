@@ -22,10 +22,10 @@
       "locked_version": "1.2.4"
     },
     "ark": {
-      "locked_version": "0.3.2"
+      "locked_version": "0.3.0"
     },
     "apt": {
-      "locked_version": "2.1.1"
+      "locked_version": "2.1.0"
     },
     "database": {
       "locked_version": "1.4.0"
@@ -37,7 +37,7 @@
       "locked_version": "1.1.0"
     },
     "build-essential": {
-      "locked_version": "1.4.2"
+      "locked_version": "1.4.0"
     },
     "postgresql": {
       "locked_version": "3.0.4"
