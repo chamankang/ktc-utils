@@ -9,9 +9,9 @@
       "ref": "6daab4a5eee14842e818ba30cc6bc9c88d61fe32"
     },
     "services": {
-      "locked_version": "1.0.10",
+      "locked_version": "1.1.1",
       "git": "git://github.com/spheromak/services-cookbook.git",
-      "ref": "f5f2cc911e3fb1832a457552cb98d81c3a645c9b"
+      "ref": "29c849ee1842aae0989b5f5f58b9f75c71620ab0"
     },
     "openstack-common": {
       "locked_version": "0.4.3",
@@ -25,25 +25,25 @@
       "locked_version": "0.3.0"
     },
     "apt": {
-      "locked_version": "2.1.0"
+      "locked_version": "2.1.1"
     },
     "database": {
       "locked_version": "1.4.0"
     },
     "mysql": {
-      "locked_version": "3.0.4"
+      "locked_version": "3.0.2"
     },
     "openssl": {
-      "locked_version": "1.1.0"
+      "locked_version": "1.0.2"
     },
     "build-essential": {
       "locked_version": "1.4.0"
     },
     "postgresql": {
-      "locked_version": "3.0.4"
+      "locked_version": "3.0.2"
     },
     "aws": {
-      "locked_version": "0.101.4"
+      "locked_version": "0.101.2"
     },
     "xfs": {
       "locked_version": "1.1.0"
