@@ -3,42 +3,47 @@
     "ktc-utils": {
       "path": "."
     },
+    "ktc-etcd": {
+      "locked_version": "1.1.4",
+      "git": "git://github.com/cloudware-cookbooks/ktc-etcd.git",
+      "ref": "6daab4a5eee14842e818ba30cc6bc9c88d61fe32"
+    },
+    "services": {
+      "locked_version": "1.1.1",
+      "git": "git://github.com/spheromak/services-cookbook.git",
+      "ref": "29c849ee1842aae0989b5f5f58b9f75c71620ab0"
+    },
     "openstack-common": {
       "locked_version": "0.4.3",
       "git": "git://github.com/stackforge/cookbook-openstack-common.git",
       "ref": "eb5eed7126b6a6efbaf803e8a594d610cf661e97"
     },
-    "chef-solo-search": {
-      "locked_version": "0.4.0",
-      "git": "git://github.com/edelight/chef-solo-search.git",
-      "ref": "1f79c1d86e85aa3a2b01e15f90755cf60eb66a4f"
-    },
     "etcd": {
-      "locked_version": "1.2.3"
+      "locked_version": "1.3.1"
     },
     "ark": {
-      "locked_version": "0.3.0"
+      "locked_version": "0.4.0"
     },
     "apt": {
-      "locked_version": "2.1.0"
+      "locked_version": "2.2.0"
     },
     "database": {
-      "locked_version": "1.4.0"
+      "locked_version": "1.5.0"
     },
     "mysql": {
-      "locked_version": "3.0.2"
+      "locked_version": "3.0.10"
     },
     "openssl": {
-      "locked_version": "1.0.2"
+      "locked_version": "1.1.0"
     },
     "build-essential": {
-      "locked_version": "1.4.0"
+      "locked_version": "1.4.2"
     },
     "postgresql": {
-      "locked_version": "3.0.2"
+      "locked_version": "3.0.4"
     },
     "aws": {
-      "locked_version": "0.101.2"
+      "locked_version": "0.101.6"
     },
     "xfs": {
       "locked_version": "1.1.0"

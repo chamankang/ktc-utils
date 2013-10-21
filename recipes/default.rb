@@ -6,3 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+KTC::Network.node = node
+KTC::Attributes.node = node
