@@ -1,1 +1,1 @@
-include_recipe "utils_test::services"
+include_recipe "utils_test::helpers"

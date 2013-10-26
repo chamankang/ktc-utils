@@ -17,6 +17,7 @@ suites:
   run_list:
     - recipe[ktc-etcd]
     - recipe[ktc-utils]
+    - recipe[utils_test::helpers]
   attributes:
     authorization:
       sudo:
