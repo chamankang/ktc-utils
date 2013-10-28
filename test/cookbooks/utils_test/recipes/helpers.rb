@@ -1,8 +1,4 @@
-
-processes = [
-  { "name" => "nova-compute-long", "shortname" => "nova-compute" },
-  { "name" => "libvirt-long", "shortname" => "libvirt" }
-]
+processes = node['utils_test']['compute']['compute_processes']
 
 processes_collectd = KTC::Helpers.select_and_strip_keys processes, "shortname"
 
