@@ -86,7 +86,7 @@ module KTC
       def set_endpoint service
         ha_d = node[:ha_disabled]
         # image endpoints never run ha
-        if ['image-api', 'image-registry'].include?(service.name)
+        if ['image-registry'].include?(service.name)
           ha_d = true
         end
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
