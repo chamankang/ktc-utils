@@ -59,12 +59,10 @@ module KTC
       end
 
       def set_rabbit_ha service
-        ips = service.members.map { |m| m.ip }
-        node.default["openstack"]["mq"]["servers"] = ips
-        Chef::Log.info "setting rabbitmq cluster attrs to #{ips}"
+        set_rabbit_single service.endpoint.ip, service.endpoint.port
 
         node.default["service_names"].map do |s|
-          node.default["openstack"][s]["rabbit"]["ha"] = true
+          node.default["openstack"][s]["rabbit"]["ha"] = false
         end
       end
 
@@ -86,7 +84,7 @@ module KTC
       def set_endpoint service
         ha_d = node[:ha_disabled]
         # image endpoints never run ha
-        if ['image-registry'].include?(service.name)
+        if ['image-api', 'image-registry'].include?(service.name)
           ha_d = true
         end
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
