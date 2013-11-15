@@ -37,11 +37,16 @@ module KTC
         services
       end
 
-      # set stackforge attributes for mysql
-      def set_database service
-        ha_d = node[:ha_disabled]
+      def get_endpoint service, ha_d
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
         port = ha_d ? service.members.first.port : service.endpoint.port
+        [ip, port]
+      end
+
+      # set stackforge attributes for mysql
+      def set_database service
+        ha_d = node["ha_disabled"]
+        ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting database host attrs to #{ip}:#{port}"
 
         node.default["service_names"].each do |s|
@@ -51,27 +56,14 @@ module KTC
       end
 
       def set_rabbit service
-        if node[:ha_disabled]
-          set_rabbit_single service.members.first.ip, service.members.first.port
-        else
-          set_rabbit_ha service
-        end
-      end
+        ha_d = node["ha_disabled"]
+        ip, port = get_endpoint service, ha_d
+        Chef::Log.info "setting rabbit host attrs to #{ip}:#{port}"
 
-      def set_rabbit_ha service
-        ips = service.members.map { |m| m.ip }
-        node.default["openstack"]["mq"]["servers"] = ips
-        Chef::Log.info "setting rabbitmq cluster attrs to #{ips}"
-
-        node.default["service_names"].map do |s|
-          node.default["openstack"][s]["rabbit"]["ha"] = true
-        end
-      end
-
-      def set_rabbit_single ip, port
         node.default["service_names"].each do |s|
           node.default["openstack"][s]["rabbit"]["host"] = ip
           node.default["openstack"][s]["rabbit"]["port"] = port
+          node.default["openstack"][s]["rabbit"]["ha"] = false
         end
       end
 
@@ -84,13 +76,12 @@ module KTC
 
       # set stackforge attributes for openstack service endpoints
       def set_endpoint service
-        ha_d = node[:ha_disabled]
+        ha_d = node["ha_disabled"]
         # image endpoints never run ha
-        if ['image-registry'].include?(service.name)
+        if ['image-api', 'image-registry'].include?(service.name)
           ha_d = true
         end
-        ip = ha_d ? service.members.first.ip : service.endpoint.ip
-        port = ha_d ? service.members.first.port : service.endpoint.port
+        ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting #{service.name} host attrs to #{ip}:#{port}"
 
         node.default["openstack"]["endpoints"][service.name]["host"] = ip
