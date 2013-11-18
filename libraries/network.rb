@@ -19,7 +19,7 @@ module KTC
       # @return String ip address
       def address name
         ip = nil
-        iface = if_lookup name || name
+        iface = (if_lookup name) || name
         ip =  if_addr iface
       end
 
