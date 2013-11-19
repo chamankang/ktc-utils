@@ -15,7 +15,7 @@ platforms:
 suites:
 - name: default
   run_list:
-    - recipe[ktc-etcd]
+    - recipe[etcd::compile_time]
     - recipe[ktc-utils]
     - recipe[utils_test::helpers]
   attributes:

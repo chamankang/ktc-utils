@@ -7,7 +7,7 @@ site :opscode
 
 metadata
 
-cookbook 'ktc-etcd'
-cookbook 'services'
-cookbook 'openstack-common'
-cookbook 'utils_test', path: "test/cookbooks/utils_test"
+group "integration" do
+  cookbook 'etcd'
+  cookbook 'utils_test', path: "test/cookbooks/utils_test"
+end
