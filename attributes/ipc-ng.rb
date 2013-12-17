@@ -12,4 +12,3 @@ if node.run_list.include?("recipe[ktc-image]")
   default["interface_mapping"]["management"] = "bond0"
   default["interface_mapping"]["storage"] = "bond1"
 end
-
