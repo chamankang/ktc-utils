@@ -31,9 +31,9 @@ module KTC
       private
 
       def if_addr int
-        interface_node = node["network"]["interfaces"][int]["addresses"]
+        interface_node = node['network']['interfaces'][int]['addresses']
         interface_node.select do |address, data|
-          if data['family'] == "inet"
+          if data['family'] == 'inet'
             return address
           end
         end
@@ -42,7 +42,11 @@ module KTC
       # list all the defined interace names
       # @return Array of names
       def list_interface_names
-        return node["interface_mapping"].keys
+        # use fetch to handle the lookup, and return
+        mappings = node.fetch 'interface_mapping', []
+        # return list of keys or empty array
+        names = mappings.to_a.empty? ? mappings : mappings.keys
+        return names
       end
 
       # list interfaces on this vm
