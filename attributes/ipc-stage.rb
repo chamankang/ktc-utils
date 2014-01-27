@@ -19,10 +19,10 @@ if node.run_list.include?("recipe[ktc-block-storage]")
 end
 
 if node.hostname.include?("znode")
-    default["interface_mapping"]["management"] = "br0"
-      default["interface_mapping"]["storage"] = "br1"
+  default["interface_mapping"]["management"] = "br0"
+  default["interface_mapping"]["storage"] = "br1"
 end
 
 if node.hostname.include?("mnode")
-    default["interface_mapping"]["management"] = "br0"
+  default["interface_mapping"]["management"] = "br0"
 end
