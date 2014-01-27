@@ -31,10 +31,10 @@ module KTC
       private
 
       def if_addr int
-        if node['network']['interfaes'].has_key? int
+        if node['network']['interfaces'].has_key? int
           interface_node = node['network']['interfaces'][int]['addresses']
         else
-          Chef::Log.info "I was asked to fetch IPaddr for unknown int #{int} "
+          Chef::Log.warn "I was asked to fetch IPaddr for unknown int #{int}"
           return nil
         end
 
