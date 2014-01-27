@@ -31,7 +31,13 @@ module KTC
       private
 
       def if_addr int
-        interface_node = node['network']['interfaces'][int]['addresses']
+        if node['network']['interfaes'].has_key? int
+          interface_node = node['network']['interfaces'][int]['addresses']
+        else
+          Chef::Log.info "I was asked to fetch IPaddr for unknown int #{int} "
+          return nil
+        end
+
         interface_node.select do |address, data|
           if data['family'] == 'inet'
             return address
