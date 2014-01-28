@@ -3,9 +3,9 @@ return unless chef_environment == "ipc-prod"
 include_attribute "ktc-utils::default"
 
 if node.run_list.include?("recipe[ktc-compute::compute]")
-  default["interface_mapping"]["private"] = "bond1"
+  default["interface_mapping"]["private"] = "bond2"
   default["interface_mapping"]["management"] = "eth0"
-  default["interface_mapping"]["storage"] = "bond2"
+  default["interface_mapping"]["storage"] = "bond1"
 end
 
 if node.run_list.include?("recipe[ktc-image]")
