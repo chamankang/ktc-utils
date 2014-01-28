@@ -4,7 +4,7 @@ maintainer_email 'wil.reichert@kt.com'
 license          'All rights reserved'
 description      'Installs/Configures ktc-utils'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '0.3.19'
+version '0.3.20'
 
 %w{ centos ubuntu }.each do |os|
   supports os
