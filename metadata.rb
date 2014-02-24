@@ -10,6 +10,6 @@ version '0.3.20'
   supports os
 end
 
-depends "services", "> 1.0.5"
+depends "services", ">= 2.0.3"
 depends "openstack-common", "~> 0.4.3"
 depends "etcd"
