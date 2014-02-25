@@ -1,4 +1,4 @@
-#
+# Encoding: UTF-8
 # Cookbook Name:: ktc-utils
 # Library:: Chef::Recipe::Patch
 #
@@ -17,13 +17,15 @@
 # limitations under the License.
 #
 
+# rubocop:disable CyclomaticComplexity, MethodLength
 class Chef::Recipe::Patch
   def self.check_package_version(package, version, nodeish = nil)
     nodeish = node unless nodeish
-    # TODO(breu): remove nova-apply_patches sometime in the future
-    #if !(nodeish["osops"]["apply_patches"] or nodeish["nova"]["apply_patches"])
-    if (nodeish["osops"] && nodeish["osops"]["apply_patches"] == false) &&
-      (nodeish["nova"] && nodeish["nova"]["apply_patches"] == false)
+    # TODO: remove nova-apply_patches sometime in the future
+    # if !(nodeish["osops"]["apply_patches"] or
+    # nodeish["nova"]["apply_patches"])
+    if (nodeish['osops'] && nodeish['osops']['apply_patches'] == false) &&
+      (nodeish['nova'] && nodeish['nova']['apply_patches'] == false)
 
       Chef::Log.info("osops-utils/patch: package #{package} skipping hotfix" +
         "for #{version} due to node settings")
@@ -33,11 +35,11 @@ class Chef::Recipe::Patch
 
     command, pattern = nil
 
-    case nodeish["platform"]
-    when "ubuntu", "debian"
+    case nodeish['platform']
+    when 'ubuntu', 'debian'
       command = "apt-cache policy #{package}"
       pattern = /^\s{2}Installed: (.+)$/
-    when "fedora", "centos", "redhat", "scientific", "amazon"
+    when 'fedora', 'centos', 'redhat', 'scientific', 'amazon'
       # TODO(breu): need to test this for fedora
       command = "rpm -q --queryformat '%{VERSION}-%{RELEASE}\n' #{package}"
       pattern = /^([\w.-]+)$/
@@ -52,19 +54,17 @@ class Chef::Recipe::Patch
       end
     end
 
-    return false
+    false
   end
 
   def self._version_installed?(command, pattern, version)
     Mixlib::ShellOut.new(command).run_command.stdout.each_line do |line|
       case line
       when pattern
-        if $1 == version
-          return true
-        end
+        return true if Regexp.last_match[1] == version
       end
     end
 
-    return false
+    false
   end
 end

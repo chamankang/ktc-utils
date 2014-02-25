@@ -1,11 +1,11 @@
-$: << File.expand_path(File.dirname(__FILE__) + "../../")
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '../../')
 
-if ENV["COVERAGE"]
-  require "simplecov"
+if ENV['COVERAGE']
+  require 'simplecov'
 
   SimpleCov.start do
-    add_filter "spec"
+    add_filter 'spec'
   end
 end
 
-require "chefspec"
+require 'chefspec'
