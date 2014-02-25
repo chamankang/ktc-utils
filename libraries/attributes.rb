@@ -29,7 +29,6 @@ module KTC
       # @return an array of service objects fomr the etcd server
       def get_services
         Services::Connection.new run_context: node.run_context
-        services = []
         Services.all
       end
 
@@ -41,25 +40,25 @@ module KTC
 
       # set stackforge attributes for mysql
       def set_database service
-        ha_d = node["ha_disabled"]
+        ha_d = node['ha_disabled']
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting database host attrs to #{ip}:#{port}"
 
-        node.default["service_names"].each do |s|
-          node.default["openstack"]["db"][s]["host"] = ip
-          node.default["openstack"]["db"][s]["port"] = port
+        node.default['service_names'].each do |s|
+          node.default['openstack']['db'][s]['host'] = ip
+          node.default['openstack']['db'][s]['port'] = port
         end
       end
 
       def set_rabbit service
-        ha_d = node["ha_disabled"]
+        ha_d = node['ha_disabled']
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting rabbit host attrs to #{ip}:#{port}"
 
-        node.default["service_names"].each do |s|
-          node.default["openstack"][s]["rabbit"]["host"] = ip
-          node.default["openstack"][s]["rabbit"]["port"] = port
-          node.default["openstack"][s]["rabbit"]["ha"] = false
+        node.default['service_names'].each do |s|
+          node.default['openstack'][s]['rabbit']['host'] = ip
+          node.default['openstack'][s]['rabbit']['port'] = port
+          node.default['openstack'][s]['rabbit']['ha'] = false
         end
       end
 
@@ -72,16 +71,16 @@ module KTC
 
       # set stackforge attributes for openstack service endpoints
       def set_endpoint service
-        ha_d = node["ha_disabled"]
+        ha_d = node['ha_disabled']
         # image endpoints never run ha
-        if ['image-api', 'image-registry'].include?(service.name)
+        if %w(image-api image-registry).include?(service.name)
           ha_d = true
         end
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting #{service.name} host attrs to #{ip}:#{port}"
 
-        node.default["openstack"]["endpoints"][service.name]["host"] = ip
-        node.default["openstack"]["endpoints"][service.name]["port"] = port
+        node.default['openstack']['endpoints'][service.name]['host'] = ip
+        node.default['openstack']['endpoints'][service.name]['port'] = port
       end
 
     end
