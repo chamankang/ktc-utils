@@ -1,10 +1,13 @@
+# Encoding: UTF-8
+# rubocop:disable AccessorMethodName
 module KTC
+  # Yay this stuff :|
   class Attributes
     class << self
-
       attr_accessor :node
 
       # query etcd and set all known endpoints on this node
+      # rubocop:disable MethodLength
       def set
         services = get_services
         Chef::Log.info "services defined: #{services.map { |m| m.name }}"
@@ -12,11 +15,11 @@ module KTC
         services.each do |service|
           Chef::Log.debug "#### setting attributes for service #{service.name}"
           case service.name
-          when "memcached"
+          when 'memcached'
             set_memcached service
-          when "mysql"
+          when 'mysql'
             set_database service
-          when "rabbitmq"
+          when 'rabbitmq'
             set_rabbit service
           else
             set_endpoint service
@@ -32,14 +35,14 @@ module KTC
         Services.all
       end
 
-      def get_endpoint service, ha_d
+      def get_endpoint(service, ha_d)
         ip = ha_d ? service.members.first.ip : service.endpoint.ip
         port = ha_d ? service.members.first.port : service.endpoint.port
         [ip, port]
       end
 
       # set stackforge attributes for mysql
-      def set_database service
+      def set_database(service)
         ha_d = node['ha_disabled']
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting database host attrs to #{ip}:#{port}"
@@ -50,7 +53,7 @@ module KTC
         end
       end
 
-      def set_rabbit service
+      def set_rabbit(service)
         ha_d = node['ha_disabled']
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting rabbit host attrs to #{ip}:#{port}"
@@ -63,26 +66,23 @@ module KTC
       end
 
       # set stackforge attributes for memcached
-      def set_memcached service
+      def set_memcached(service)
         ips = service.members.map { |m| "#{m.ip}:#{m.port}" }
         Chef::Log.info "setting memcached attrs to #{ips}"
         node.default['openstack']['memcached_servers'] = ips
       end
 
       # set stackforge attributes for openstack service endpoints
-      def set_endpoint service
+      def set_endpoint(service)
         ha_d = node['ha_disabled']
         # image endpoints never run ha
-        if %w(image-api image-registry).include?(service.name)
-          ha_d = true
-        end
+        ha_d = true if %w(image-api image-registry).include?(service.name)
         ip, port = get_endpoint service, ha_d
         Chef::Log.info "setting #{service.name} host attrs to #{ip}:#{port}"
 
         node.default['openstack']['endpoints'][service.name]['host'] = ip
         node.default['openstack']['endpoints'][service.name]['port'] = port
       end
-
     end
   end
 end

@@ -1,3 +1,4 @@
+# Encoding: UTF-8
 # sane default
 # Just force everything to eth0
 # Every env attrib file should override

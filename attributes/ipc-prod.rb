@@ -1,3 +1,4 @@
+# Encoding: UTF-8
 return unless chef_environment == 'ipc-prod'
 
 include_attribute 'ktc-utils::default'

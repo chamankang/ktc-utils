@@ -1,4 +1,4 @@
-#
+# encoding: UTF-8
 # Cookbook Name:: ktc-utils
 # Recipe:: default
 #

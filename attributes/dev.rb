@@ -1,3 +1,4 @@
+# Encoding: UTF-8
 return unless chef_environment == 'dev'
 
 include_attribute 'ktc-utils::default'
