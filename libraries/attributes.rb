@@ -30,11 +30,7 @@ module KTC
       def get_services
         Services::Connection.new run_context: node.run_context
         services = []
-        Services.get('/services/').each do |service|
-          name = File.basename service.key
-          services << Services::Service.new(name)
-        end
-        services
+        Services.all
       end
 
       def get_endpoint service, ha_d
