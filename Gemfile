@@ -6,7 +6,8 @@ gem 'berkshelf'
 group 'develop' do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
-  # can remove and goto upstream when: https://github.com/test-kitchen/kitchen-openstack/pull/40 merged
+  # can remove and goto upstream when:
+  # https://github.com/test-kitchen/kitchen-openstack/pull/40 merged
   gem 'kitchen-openstack',
       git: 'https://github.com/wilreichert/kitchen-openstack.git',
       branch: 'user_data'
