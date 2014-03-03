@@ -8,11 +8,8 @@ AllCops:
     - providers/**
     - resources/**
   Excludes:
-    - spec/**
     - test/**
     - vendor/**
 
 Encoding:
-  Exclude:
-    - metadata.rb
-    - Gemfile
+  Enabled: false 
