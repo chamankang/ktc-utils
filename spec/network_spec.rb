@@ -8,12 +8,12 @@ describe 'ktc-utils::Network' do
       'type' => 'eth',
       'number' => '0',
       'mtu' => '1500',
-      'flags' => %w/
+      'flags' => %w(
         BROADCAST
         MULTICAST
         UP
         LOWER_UP
-      /,
+),
       'encapsulation' => 'Ethernet',
       'addresses' => {
         '52:54:00:44:56:02' => {

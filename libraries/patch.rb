@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-# rubocop:disable CyclomaticComplexity, MethodLength
+# rubocop:disable CyclomaticComplexity, MethodLength, ClassAndModuleChildren
 class Chef::Recipe::Patch
   def self.check_package_version(package, version, nodeish = nil)
     nodeish = node unless nodeish
@@ -27,7 +27,7 @@ class Chef::Recipe::Patch
     if (nodeish['osops'] && nodeish['osops']['apply_patches'] == false) &&
       (nodeish['nova'] && nodeish['nova']['apply_patches'] == false)
 
-      Chef::Log.info("osops-utils/patch: package #{package} skipping hotfix" +
+      Chef::Log.info("osops-utils/patch: package #{package} skipping hotfix" \
         "for #{version} due to node settings")
 
       return false
@@ -47,7 +47,7 @@ class Chef::Recipe::Patch
 
     if command && pattern
       if _version_installed?(command, pattern, version)
-        Chef::Log.info("osops-utils/patch: package #{package} requires a" +
+        Chef::Log.info("osops-utils/patch: package #{package} requires a" \
           " hotfix for version #{version}")
 
         return true

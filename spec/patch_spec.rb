@@ -54,10 +54,10 @@ describe Chef::Recipe::Patch do
         library.check_package_version(package, version).should be_false
       end
 
-      %w/
+      %w(
         debian
         ubuntu
-      /.each do |platform|
+).each do |platform|
         context "on #{platform}" do
           before { node.set['platform'] = platform }
 
@@ -81,13 +81,13 @@ describe Chef::Recipe::Patch do
         end
       end
 
-      %w/
+      %w(
         fedora
         centos
         redhat
         scientific
         amazon
-      /.each do |platform|
+).each do |platform|
         context "on #{platform}" do
           before { node.set['platform'] = platform }
 
