@@ -10,6 +10,6 @@ version '0.3.28'
   supports os
 end
 
-depends 'services', '>= 2.0.4'
-depends 'openstack-common', '~> 0.4.3'
 depends 'etcd'
+depends 'openstack-common', '~> 0.4.3'
+depends 'services', '>= 2.0.4'
