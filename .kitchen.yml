@@ -16,6 +16,7 @@ suites:
       - recipe[etcd::compile_time]
       - recipe[ktc-utils]
       - recipe[utils_test::helpers]
+      - recipe[utils_test::attributes]
     attributes:
       authorization:
         sudo:

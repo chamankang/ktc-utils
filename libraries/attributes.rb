@@ -27,18 +27,18 @@ module KTC
         end
       end
 
+      def get_endpoint(service, ha_d)
+        ip = ha_d ? service.members.first.ip : service.endpoint.ip
+        port = ha_d ? service.members.first.port : service.endpoint.port
+        [ip, port]
+      end
+
       private
 
       # @return an array of service objects fomr the etcd server
       def get_services
         Services::Connection.new run_context: node.run_context
         Services.all
-      end
-
-      def get_endpoint(service, ha_d)
-        ip = ha_d ? service.members.first.ip : service.endpoint.ip
-        port = ha_d ? service.members.first.port : service.endpoint.port
-        [ip, port]
       end
 
       # set stackforge attributes for mysql
