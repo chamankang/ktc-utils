@@ -11,7 +11,7 @@ describe 'ktc-utils::Attributes' do
     }
   end
   let(:runner) do
-    ChefSpec::Runner.new('~/.berkshelf/cookbooks') }
+    ChefSpec::Runner.new('~/.berkshelf/cookbooks')
   end
 
   before do
