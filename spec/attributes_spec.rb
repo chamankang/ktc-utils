@@ -10,7 +10,10 @@ describe 'ktc-utils::Attributes' do
       ip: '127.0.0.1'
     }
   end
-  let(:runner) { ChefSpec::Runner.new('~/.berkshelf/cookbooks') }
+  let(:runner) do
+    ChefSpec::Runner.new('~/.berkshelf/cookbooks') }
+  end
+
   before do
     runner.converge 'etcd::compile_time'
     Services::Connection.new host: '127.0.0.1'
