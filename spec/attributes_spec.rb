@@ -11,7 +11,8 @@ describe 'ktc-utils::Attributes' do
     }
   end
   before do
-    ChefSpec::Runner.new('~/.berkshelf/cookbooks').converge 'etcd::compile_time'
+    ChefSpec::Runner.new('~/.berkshelf/cookbooks').converge 
+      'etcd::compile_time'
     Services::Connection.new host: '127.0.0.1'
     utils_test_service = Services::Member.new 'localhost.localdomain', service
     utils_test_service.save
