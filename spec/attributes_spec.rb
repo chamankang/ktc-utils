@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 require_relative '../libraries/attributes'
-require 'services'
+require 'etcd'
 
 describe 'ktc-utils::Attributes' do
   let(:service) do
@@ -14,7 +14,6 @@ describe 'ktc-utils::Attributes' do
 
   before do
     ChefSpec::Runner.new.converge 'etcd::compile_time'
-    Services::Connection.new host: '127.0.0.1'
     utils_test_service = Services::Member.new 'localhost.localdomain', service
     utils_test_service.save
 
