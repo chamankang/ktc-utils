@@ -10,9 +10,9 @@ describe 'ktc-utils::Attributes' do
       ip: '127.0.0.1'
     }
   end
+  let(:runner) { ChefSpec::Runner.new('~/.berkshelf/cookbooks') }
   before do
-    ChefSpec::Runner.new('~/.berkshelf/cookbooks').converge 
-      'etcd::compile_time'
+    runner.converge 'etcd::compile_time'
     Services::Connection.new host: '127.0.0.1'
     utils_test_service = Services::Member.new 'localhost.localdomain', service
     utils_test_service.save
