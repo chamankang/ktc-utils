@@ -2,16 +2,16 @@ require_relative 'spec_helper'
 require_relative '../libraries/attributes'
 
 describe 'ktc-utils::Attributes' do
-  let(:service) {
+  let(:service) do
     {
       service: 'utils-test-service',
-      port: 55555,
+      port: 55_555,
       proto: 'xxx',
       ip: '127.0.0.1'
     }
-  }
+  end
   before do
-    runner.converge "etcd::compile_time"
+    runner.converge 'etcd::compile_time'
     Services::Connection.new host: '127.0.0.1'
     utils_test_service = Services::Member.new 'localhost.localdomain', service
     utils_test_service.save
