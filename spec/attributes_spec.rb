@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 require_relative '../libraries/attributes'
+require 'services'
 
 describe 'ktc-utils::Attributes' do
   let(:service) do
