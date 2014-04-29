@@ -9,3 +9,4 @@ if ENV['COVERAGE']
 end
 
 require 'chefspec'
+require 'chefspec/berkshelf'
