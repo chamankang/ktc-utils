@@ -17,4 +17,6 @@ group 'develop' do
   gem 'knife-cookbook-doc'
   gem 'chefspec', '>= 3.2.0'
   gem 'git'
+  gem 'jn_services', '= 1.0.7'
+  gem 'etcd', '= 0.3.0'
 end
